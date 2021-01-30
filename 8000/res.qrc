@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>image/black.png</file>
+        <file>image/ccd.png</file>
+        <file>image/green.png</file>
+        <file>image/led_black.png</file>
+        <file>image/led_dark.png</file>
+        <file>image/led_green.png</file>
+        <file>image/led_red.png</file>
+        <file>image/led_yellow.png</file>
+        <file>image/logo.png</file>
+        <file>image/pic_home.png</file>
+        <file>image/white_black.png</file>
+        <file>image/white_white.png</file>
+        <file>image/arrowdown.png</file>
+        <file>image/top.gif</file>
+        <file>image/black_white.png</file>
+        <file>image/logo.jpg</file>
+        <file>image/scancode.jpg</file>
+        <file>image/up_arrow.ico</file>
+        <file>image/down_arrow.ico</file>
+    </qresource>
+</RCC>
