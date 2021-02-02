@@ -14,7 +14,7 @@ dlgparmeter::dlgparmeter(QWidget *parent) :
      ui->lineEdit_DWaccuracy->setValidator(new QIntValidator(0, 1000, this));
      ui->lineEdit_junfenX->setValidator(new QIntValidator(0, 1000, this));
      ui->lineEdit_junfenY->setValidator(new QIntValidator(0, 1000, this));
-     ui->lineEdit_movedistance->setValidator(new QIntValidator(0, 1000, this));
+    // ui->lineEdit_movedistance->setValidator(new QIntValidator(0, 1000, this));
      ui->lineEdit_wuchaX->setValidator(new QIntValidator(0, 1000, this));
      ui->lineEdit_wuchaY->setValidator(new QIntValidator(0, 1000, this));
      input = new DlgInputkey(this);
