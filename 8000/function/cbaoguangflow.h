@@ -4,7 +4,7 @@
 #include<QTime>
 ////global
 #include "driver/global.h"
-#define ONCEDW_MAX 30
+#define ONCEDW_MAX 80
 
 class CBaoguangFlow
 {
