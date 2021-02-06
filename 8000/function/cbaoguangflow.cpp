@@ -56,207 +56,6 @@ void air_break(int frameid)
 //下菲林对位核对
 void *dwcheckthread(void *arg){}
 
-//{
-//    CBaoguangFlow dwflow;
-//    CCDLMR_POS downlmrpos;
-//    downlmrpos.value_l=0;
-//    downlmrpos.value_m=0;
-//    downlmrpos.value_r=0;
-//    g_bDownPTDuiWeiExit = false;
-//    update_thread->threaddriver->CCDSend_DWSart(1);
-//    //移框后靶标切换，等待停止
-//    qDebug()<<QObject::tr("down等待CCD停止");
-//    dwflow.wait_downccdstop(false);
-//    //压板
-//    qDebug()<<QObject::tr("down压板");
-//    if(g_now_frame==0)
-//    {
-//        if(update_thread->m_framedingban)
-//        {
-//            update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.zjb,true);
-//            usleep(10000);
-//            //重复对位时等待顶板完成
-//            if(g_downdw_num>0)
-//            {
-//                usleep(50000);//50ms
-//            }
-//            update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.tb,false);
-//        }
-//        if(false==update_thread->threaddriver->Get_PortVal(update_thread->threaddriver->m_output.jt_airout,PORT_OUT))
-//        {
-//            qDebug()<<QObject::tr("down:胶条抽气");
-//            update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.jt_airin,false);
-//            update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.jt_airout,true);
-//            usleep(g_jtairout_delay);
-//        }
-//    }
-//    else if(g_now_frame==1)
-//    {
-//        if(update_thread->m_framedingban)
-//        {
-//            update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.zjb2,true);
-//            usleep(10000);
-//            if(g_downdw_num>0)
-//            {
-//                usleep(50000);//50ms
-//            }
-//            update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.tb2,false);
-//        }
-//        if(false==update_thread->threaddriver->Get_PortVal(update_thread->threaddriver->m_output.jt2_airout,PORT_OUT))
-//        {
-//            qDebug()<<QObject::tr("down:胶条抽气");
-//            update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.jt2_airin,false);
-//            update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.jt2_airout,true);
-//            usleep(g_jtairout_delay);
-//        }
-//    }
-//    if(g_downautoset)
-//    {
-//        //对位
-//        g_downdw_num = 0;
-//        g_downdw_continuenum=0;
-//        g_downdw_start = false;
-//        g_downdw_answer  = 0;
-//        //核对
-//        g_downch_start = false;
-//        g_downch_answer = 0;
-////        dwflow.dwpt_zmove(PT_HOME,g_now_frame,true);
-//        update_thread->tj_lmrvalue[1] = downlmrpos;
-//    }
-//    dwflow.downccd_moveposition(false,update_thread->m_downcurrentmark);
-//    //重复对位时可不置中
-//    if(0==g_downdw_num)
-//    {
-////        qDebug()<<QObject::tr("下平台:LMR回零");
-////        dwflow.dwpt_lmrmove(1,downlmrpos,g_now_frame);
-////        dwflow.wait_lmrstop(1,g_now_frame);
-//        qDebug()<<QObject::tr("下平台:LMR上一次对位位置");
-//        dwflow.dwpt_lmrmove(1,update_thread->m_downpcbok[g_now_frame],g_now_frame);
-//        dwflow.wait_lmrstop(1,g_now_frame);
-//    }
-//    else if(g_downdw_num>1)
-//    {
-//        dwflow.dwpt_lmrmove(1,update_thread->tj_lmrvalue[1],g_now_frame);
-//        dwflow.wait_lmrstop(1,g_now_frame);
-//    }
-//    dwflow.wait_downccdstop(false);
-//    qDebug()<<QObject::tr("下平台:开始对位，并等待对位结果");
-//    int dccd_234=0;
-//    if(g_now_frame==0)
-//    {
-//        dccd_234 = g_par.downccd_234[0];
-//    }
-//    else if(g_now_frame==1)
-//    {
-//        dccd_234 = g_par.downccd_234[1];
-//    }
-//    if(dccd_234!=3)
-//    {
-//        int downdw_answer=0;
-//        g_bDownChange_mark =0;
-//        int num=0;
-//        //等待对位结果 0：继续对位 1：成功 2：失败 3：软件限位失败
-//        while((downdw_answer==0)&&(g_isPause==false)&&((g_isSysRunning==true)||(g_isSysContinueRun==true)||(g_downautoset==true)))
-//        {
-//            /*****************
-//            ******对位处理*****
-//            ******************/
-//            dwflow.ccd_dwtype(1,1);
-//            num =0;
-//            while(g_downdw_start &&(num<20))//等待CCD反馈对位结果 超时1s
-//            {
-//                usleep(50000);//50ms
-//                num++;
-//            }
-//            if(num<20)
-//            {
-//                downdw_answer = g_downdw_answer;
-//            }
-//            else
-//            {
-//                downdw_answer = 2;
-//            }
-//            if(g_bDebug_run)
-//            {
-//                downdw_answer = g_bDWTest;
-//                if(downdw_answer==0) downdw_answer=g_downdw_answer;
-//            }
-//            if((g_no_dw[1]==1)||(g_downruntest[g_now_frame]==true))
-//            {
-//                downdw_answer =1;
-//            }
-//            if(downdw_answer==0)//根据视觉反馈坐标偏移后继续对位
-//            {
-//               dwflow.dwpt_lmrmove(1,update_thread->downlmrvalue,g_now_frame);
-//               dwflow.wait_lmrstop(1,g_now_frame);
-//               usleep(50000);//0.05s等待轴完全停止
-//            }
-//            g_downdw_continuenum++;//继续对位次数
-//            if((g_downdw_continuenum>200)||(num>=20))//超过单次连续对位次数
-//            {
-//                downdw_answer = 2;
-//                qDebug("g_downdw_continuenum=%d num=%d\n",g_downdw_continuenum,num);
-//                num =0;
-//                qDebug()<<QObject::tr("对位超时");
-//                update_thread->thread_alarmshow(QObject::tr("下平台对位超时!"));
-//            }
-//            if((downdw_answer==3)&&(g_bDownChange_mark==0))
-//            {
-//                qDebug()<<QObject::tr("下平台对位失败，切换靶点");
-//                g_bDownChange_mark =1;
-//                dwflow.dwpt_lmrmove(1,update_thread->m_downpcbok[g_now_frame],g_now_frame);
-//                qDebug()<<QObject::tr("下平台靶标切换");
-//                dwflow.downccd_moveposition(false,update_thread->m_downcurrentmark);
-//                dwflow.wait_lmrstop(1,g_now_frame);
-//                dwflow.wait_downccdstop(false);
-//                g_downdw_continuenum=0;
-//                downdw_answer=0;
-//            }
-//        }
-//        if(downdw_answer==2)
-//        {
-//            //添加对位失败处理
-//            g_bDownPTDuiWeiOK = false;
-//            g_bDownPTDuiWeiExit = true;
-//            qDebug()<<QObject::tr("下平台对位失败，即将退出");
-//            if(g_now_frame==0)
-//            {
-//                update_thread->thread_alarmshow(QObject::tr("上框下平台对位拒曝！"));
-//                g_par.JB_finish_num++;
-//            }
-//            else if(g_now_frame==1)
-//            {
-//                update_thread->thread_alarmshow(QObject::tr("下框下平台对位拒曝！"));
-//                g_par.JB2_finish_num++;
-//            }
-//            //保存参数
-//            CIniRW filesave(TOPPARAMETERPATH);
-//            filesave.WriteIni("TOP","JB_FINISH_NUM",QString::number(g_par.JB_finish_num,10));
-//            filesave.WriteIni("TOP","JB2_FINISH_NUM",QString::number(g_par.JB2_finish_num,10));
-//            if(!g_downautoset && (g_downdw_num>0)) dwflow.reject_done();
-//        }
-//        else if(downdw_answer==1)
-//        {
-//            g_bDownPTDuiWeiOK = true;
-//            //记录上一次对位OK的位置
-//            update_thread->m_downpcbok[g_now_frame] = update_thread->downlmrvalue;
-//        }
-//        if(g_downautoset)
-//        {
-//            qDebug()<<QObject::tr("下平台自动对位完毕");
-//        }
-//    }
-//    else
-//    {
-//        g_bDownPTDuiWeiOK = true;
-//    }
-//    qDebug()<<QObject::tr("下平台对位完毕");
-//    //状态恢复
-//    g_isDownPTDuiWei = false;
-//    pthread_cancel(dwcheckthreadId);
-//    pthread_exit(NULL);
-//}
-
 //对位点灯曝光
 void *dwlightrunthread(void *arg)
 {
@@ -1256,8 +1055,12 @@ bool CBaoguangFlow::wait_ccdstop(bool isrw)
         int isccd2y = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD2Y);
         int isccd3y = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD3Y);
         int isccd4y = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD4Y);
+        int isccd1x = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD1X);
+        int isccd2x = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD2X);
+        int isccd3x = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD3X);
+        int isccd4x = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD4X);
         bool issafe =false;
-        if((isccd1y==1)&&(isccd2y==1)&&(isccd3y==1)&&(isccd4y==1))
+        if((isccd1y==1)&&(isccd2y==1)&&(isccd3y==1)&&(isccd4y==1)&&(isccd1x==1)&&(isccd2x==1)&&(isccd3x==1)&&(isccd4x==1))
         {
             issafe = true;
         }
@@ -1269,7 +1072,11 @@ bool CBaoguangFlow::wait_ccdstop(bool isrw)
             isccd2y = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD2Y);
             isccd3y = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD3Y);
             isccd4y = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD4Y);
-            if((isccd1y==1)&&(isccd2y==1)&&(isccd3y==1)&&(isccd4y==1))
+             isccd1x = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD1X);
+             isccd2x = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD2X);
+             isccd3x = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD3X);
+             isccd4x = update_thread->threaddriver->Axis_OrgLimit(AXIS_CCD4X);
+             if((isccd1y==1)&&(isccd2y==1)&&(isccd3y==1)&&(isccd4y==1)&&(isccd1x==1)&&(isccd2x==1)&&(isccd3x==1)&&(isccd4x==1))
             {
                 issafe = true;
             }
@@ -3303,9 +3110,9 @@ bool CBaoguangFlow::DuiweiCheck()
 
     //////////////////////// 不移动框架
     update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.frame_light,false);//关闭 曝光室照明电源
-    qDebug()<<QObject::tr("进入曝光流程");
+    qDebug()<<QObject::tr("进入曝光流程")<<g_isBgRunning;
     if(g_isBgRunning)
-        qDebug()<<QObject::tr("等待另一个框曝光完成2");
+        qDebug()<<QObject::tr("等待另一个框曝光完成2 g_isBgRunning");
     while(g_isBgRunning)
     {
         usleep(50000);//50ms
@@ -3319,6 +3126,7 @@ bool CBaoguangFlow::DuiweiCheck()
     }
     //等待曝光完成判断报警和停止命令
     if((0==update_thread->input.EstopSig)||g_isPause) return false;
+
     if(g_isPauseRun && (g_isPause==false))
            qDebug()<<QObject::tr("进入暂停状态");
     while(g_isPauseRun && (g_isPause==false))
@@ -3765,7 +3573,7 @@ void CBaoguangFlow::run()
                movelimit += List_parmeter.at(i).toFloat();
              }
              qDebug()<<"movelimit=="<<movelimit;
-             if(1395<(g_par.w_movelimit + movelimit)){
+             if(1460<(g_par.w_movelimit + movelimit)){
                  qDebug()<<QObject::tr("移框距离过大");
                  update_thread->thread_alarmshow("移框距离过大");
                  thread_pause(false);
@@ -3799,7 +3607,7 @@ void CBaoguangFlow::run()
 
         if(g_autoset){
             qDebug()<<QObject::tr("单键运行结束时间:自动定位end");
-            g_par.bg_pos=0;//归零
+            //g_par.bg_pos=0;//归零
             return;
         }
 
@@ -3824,7 +3632,20 @@ void CBaoguangFlow::run()
 //                update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.frame_air,true);
 //                usleep(g_par.frame_open_flowdelay*1000);
 //                update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.frame_air,false);
-
+                qDebug()<<QObject::tr("平台Z回到dw位置！1");
+                if(false==dwpt_zmove(PT_DWPOSITION,g_now_frame,false))
+                {
+                    thread_pause(false);
+                    return;
+                }
+                usleep(200000);
+                qDebug()<<QObject::tr("平台Z回到lb位置！1");
+                if(false==dwpt_zmove(PT_LBPOSITION,g_now_frame,false))
+                {
+                    thread_pause(false);
+                    return;
+                }
+                    usleep(200000);
 
                  qDebug()<<QObject::tr("平台Z回到原点位置！1");
                  if(false==dwpt_zmove(PT_HOME,g_now_frame,false))
@@ -3837,13 +3658,13 @@ void CBaoguangFlow::run()
             if(frame_id==0)
             {
                // bool brw = ccd_rw();
-                bool brwstop = wait_ccdstop(true);
-                if((brw==false)||(false==brwstop))
-                {
-                    thread_pause(false);
-                    return;
-                }
-                usleep(20000);//延时等待靶标更新
+//                bool brwstop = wait_ccdstop(true);
+//                if((brw==false)||(false==brwstop))
+//                {
+//                    thread_pause(false);
+//                    return;
+//                }
+//                usleep(20000);//延时等待靶标更新
                 qDebug()<<QObject::tr("LMR回零");
 
                 wait_downccdstop(false);
@@ -3879,7 +3700,7 @@ void CBaoguangFlow::run()
      return;
   }
   update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.jt_airin,false);//吹气
-  update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.BM_absorb2_out,true);//板面吹气 O15.2
+  //update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.BM_absorb2_out,true);//板面吹气 O15.2
 
     update_thread->threaddriver->Ctr_Output(update_thread->threaddriver->m_output.BM_absorb_out,false);//破板面真空1
 
